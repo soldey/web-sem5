@@ -139,8 +139,8 @@ main {
     display: block;
 }
 
-.tournament_item_name {
-
+.tournament_item_poor_owner {
+    color: red;
 }
 
 .delete_output_item_button {

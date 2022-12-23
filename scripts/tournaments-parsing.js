@@ -49,9 +49,12 @@ document.addEventListener('DOMContentLoaded', () => {
         items.forEach((item) => {
             const name = item.getElementsByClassName('tournament_item_name')[0].innerText;
             const type = item.getElementsByClassName('tournament_item_type')[0].innerText;
-            const owner = item.getElementsByClassName('tournament_item_owner')[0].innerText;
+            let owner = item.getElementsByClassName('tournament_item_owner');
+            if (owner.length === 0) {
+                owner = item.getElementsByClassName('tournament_item_poor_owner');
+            }
             const id = item.id;
-
+            owner = owner[0].innerText;
             values.push({name, type, owner, id});
         });
 
@@ -60,6 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 const addTournamentToMarkup = (Tournament) => {
+    console.log(Tournament.owner);
     const markup = `
         <div class="tournament_item" id="${new Date().getTime()}">
           <div class="tournament_item_body">
@@ -70,7 +74,7 @@ const addTournamentToMarkup = (Tournament) => {
               Тип: <span class="tournament_item_type">${Tournament.type}</span>
             </p>
             <p>
-              Организатор: <span class="tournament_item_owner">${Tournament.owner}</span>
+              Организатор: <span ${Tournament.owner === undefined ? "class=\"tournament_item_poor_owner\"" : "class=\"tournament_item_owner\""}>${Tournament.owner}</span>
             </p>
           </div>
           <p class="delete_output_item_button">
@@ -83,18 +87,21 @@ const addTournamentToMarkup = (Tournament) => {
 
 
 function getUser() {
-    const url = "https://jsonplaceholder.typicode.com/users?id=" + (1 + Math.floor(Math.random() * 10));
+    const url = "https://jsonplaceholder.typicde.com/users?id=" + (1 + Math.floor(Math.random() * 10));
     return fetch(url, {
         headers: {
             "Content-type": "application/json; charset=UTF-8"
         }
     }).then((res) => {
             if (res.status == 200) {
-                return res;
+                return res.json();
             }
             throw new Error(res.statusText);
         }).catch(() => {
-        alert("Что-то пошло не так");
+        return {
+            0: {
+                name: undefined
+            }
+        }
     })
-        .then((res) => res.json());
 }
