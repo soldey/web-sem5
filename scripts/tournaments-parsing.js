@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const tournaments_formData = new FormData(e.target);
         const values = Object.fromEntries(tournaments_formData);
         if (!values.name) {
-            alert('Не введено название');
+            alert('Нет названия');
             return;
         }
         values.owner = (await getUser())[0].name;
@@ -93,5 +93,8 @@ function getUser() {
                 return res;
             }
             throw new Error(res.statusText);
-        }).then((res) => res.json());
+        }).catch(() => {
+        alert("Что-то пошло не так");
+    })
+        .then((res) => res.json());
 }
