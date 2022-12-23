@@ -87,7 +87,7 @@ const addTournamentToMarkup = (Tournament) => {
 
 
 function getUser() {
-    const url = "https://jsonplaceholder.typicde.com/users?id=" + (1 + Math.floor(Math.random() * 10));
+    const url = "https://jsonplaceholder.typicode.com/users?id=" + (1 + Math.floor(Math.random() * 10));
     return fetch(url, {
         headers: {
             "Content-type": "application/json; charset=UTF-8"
